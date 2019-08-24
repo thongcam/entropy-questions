@@ -11,7 +11,8 @@ const getQuestion = require('./controllers/getQuestion');
 const knex = require('knex')({
   client: 'pg',
   connection: {
-    connectionString : 'postgres://postgres:DATlmaoABAs5!@localhost:5432/cau_hoi',
+    connectionString: process.env.DATABASE_URL,
+    ssl: true,
   }
 });
 
@@ -31,6 +32,6 @@ app.put('/edit-question/:question_id', editQuestion.editQuestion(knex));
 app.delete('/delete-question/:question_id', deleteQuestion.deleteQuestion(knex));
 
 
-app.listen(3000,() => {
-  console.log(`App is running on port 3000`);
+app.listen(process.env.PORT || 3000,() => {
+  console.log(`App is running`);
 })

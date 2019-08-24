@@ -1,7 +1,7 @@
 let original = {};
 let currentID = 0;
 
-const reqInfo = () => {fetch("http://localhost:3000/",{
+const reqInfo = () => {fetch("https://stark-waters-92757.herokuapp.com/",{
   method: 'get',
   headers: {'Content-Type':  'application/json'}
 })
@@ -114,7 +114,7 @@ $(".create").click(() => {
     alert("Còn bỏ trống");
   }
   if ($(".create").css("filter") === "saturate(0.7)") {
-    fetch("http://localhost:3000/add-question", {
+    fetch("https://stark-waters-92757.herokuapp.com/add-question", {
       method:"post",
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
@@ -137,7 +137,7 @@ $(".discard").click(() => {
 })
 
 $(".delete").click(() => {
-  fetch("http://localhost:3000/delete-question/"+currentID,{
+  fetch("https://stark-waters-92757.herokuapp.com/delete-question/"+currentID,{
     method: 'delete',
     headers: {'Content-Type':  'application/json'}
   }).then(response => response.json()).then(response => {
@@ -152,7 +152,7 @@ $(".edit").click(() => {
     alert("Còn bỏ trống");
   } else if ($(".edit").css("filter") === "saturate(0.7)") {
     console.log('heyyy');
-    fetch("http://localhost:3000/edit-question/"+currentID, {
+    fetch("https://stark-waters-92757.herokuapp.com/edit-question/"+currentID, {
       method:"put",
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
