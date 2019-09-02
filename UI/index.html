@@ -22,21 +22,30 @@
         </div>
       </div>
     </div>
-    <div class="placeholder">
+    <div class="placeholder" style="display:none">
       <div class="head">
         <p class='toggler'>< CÁC CÂU HỎI</p>
-        <img src=".\logo.jpg" alt="" width="90" style="border-radius:50%;">
+        <div class="dropdown">
+          <img src=".\logo.jpg" alt="" width="60" style="border-radius:50%;" class="profilepic">
+          <div id="dropdown" class="dropdown-content">
+            <button type="button" class='button logout activated'>Logout</button>
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="placeholder deadcenter">
-      THÁCH THỨC ENTROPY 11
+      <div class="deadcenter" >
+        THÁCH THỨC ENTROPY 11
+      </div>
     </div>
     <div class="main" style="display:none">
       <div class="head">
         <p class='toggler'>< Các câu hỏi</p>
-        <img src=".\logo.jpg" alt="" width="90" style="border-radius:50%;">
+        <div class="dropdown">
+          <img src=".\logo.jpg" alt="" width="60" style="border-radius:50%;" class="profilepic">
+          <div id="dropdown" class="dropdown-content">
+          </div>
+        </div>
       </div>
-      <h1 class="title">Câu hỏi 1</h1>
+      <h1 class="title"></h1>
       <div class="input-field">
         <p class="label">Câu hỏi</p>
         <textarea type="text" id="cau-hoi" placeholder="Tạo câu hỏi mới..."></textarea>
@@ -52,8 +61,8 @@
         <button type="button" class='button create deactivated'>TẠO</button>
       </div>
     </div>
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js" charset="utf-8"></script>
+    <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
     <script src="index.js" charset="utf-8"></script>
   </body>
 </html>
