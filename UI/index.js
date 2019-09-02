@@ -190,12 +190,12 @@ $(".edit").click(() => {
 
 $('.profilepic').click(() => {
   console.log('somethign');
-  $('#dropdown').toggleClass("show")
+  $('.dropdown-content').toggleClass("show")
 })
 
 $('body').click((event) => {
   if($(event.target).attr('class') !== 'dropdownName' && $(event.target).attr('class') !== 'profilepic') {
-    $('#dropdown').removeClass("show");
+    $('.dropdown-content').removeClass("show");
   }
 })
 
