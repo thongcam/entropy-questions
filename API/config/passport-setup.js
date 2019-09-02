@@ -30,7 +30,7 @@ passport.deserializeUser((id,done) => {
 passport.use(new GoogleStrategy({
     clientID: keys.google.googleClientID,
     clientSecret: keys.google.googleClientSecret,
-    callbackURL: '/auth/google/callback'
+    callbackURL: 'https://stark-waters-92757.herokuapp.com/auth/google/callback'
   }, (accessToken, refreshToken, profile, done) => {
     const currentUser = {
       id: profile.id,
