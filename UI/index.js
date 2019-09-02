@@ -15,7 +15,7 @@ const reqInfo = () => {fetch("https://stark-waters-92757.herokuapp.com/",{
       const questions= data.questions;
       original = data;
       $('.profilepic').attr('src',photo);
-      $('.dropdown-content').text(name);
+      $('.dropdownName').text(name);
       questions.sort((a, b) => (a.question_id > b.question_id) ? 1 : -1);
       questions.reverse().forEach((question,i) => {
           $(".question-list").prepend(`
