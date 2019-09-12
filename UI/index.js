@@ -42,6 +42,8 @@ const reqInfo = () => {fetch("https://stark-waters-92757.herokuapp.com/",{
         $(".placeholder").hide();
       } else if (!$(".edit").is(":visible")){
         $(".placeholder").show();
+      } else {
+        $(".edit").attr("class","button edit deactivated");
       }
     } else {
       window.location.replace('https://thongcam.github.io/entropy-questions/Authentication/index.html')
