@@ -36,7 +36,7 @@ $(".login").click(() => {
         $(".login").attr("class","button login deactivated");
         alert('Đăng nhập không thành công.');
       } else {
-        window.location.assign('http://localhost:7000/index.html');
+        window.location.assign('https://thongcam.github.io/entropy-questions/UI/index.html');
       }
     })
     .catch(err => {
