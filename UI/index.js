@@ -10,7 +10,7 @@ const reqInfo = () => {fetch("https://stark-waters-92757.herokuapp.com/",{
   .then(data => {
     if (data !== 'Authentication required') {
       const questions= data.questions;
-      original = data;
+      original = questions;
       $('.dropdownName').text('Ban Nội Dung');
       questions.sort((a, b) => (a.question_id > b.question_id) ? 1 : -1);
       questions.reverse().forEach((question,i) => {
