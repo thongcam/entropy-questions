@@ -9,13 +9,9 @@ const reqInfo = () => {fetch("https://stark-waters-92757.herokuapp.com/",{
   .then(response => response.json())
   .then(data => {
     if (data !== 'Authentication required') {
-      console.log(data);
-      const photo = (data.userPhoto) ? data.userPhoto : "./logo.jpg";
-      const name = data.username;
       const questions= data.questions;
       original = data;
-      $('.profilepic').attr('src',photo);
-      $('.dropdownName').text(name);
+      $('.dropdownName').text('Ban Nội Dung');
       questions.sort((a, b) => (a.question_id > b.question_id) ? 1 : -1);
       questions.reverse().forEach((question,i) => {
           $(".question-list").prepend(`
@@ -48,7 +44,7 @@ const reqInfo = () => {fetch("https://stark-waters-92757.herokuapp.com/",{
         $(".placeholder").show();
       }
     } else {
-      window.location.replace('https://stark-waters-92757.herokuapp.com/auth/login')
+      window.location.replace('https://thongcam.github.io/Authentication/index.html')
     }
   })
   }
@@ -189,16 +185,18 @@ $(".edit").click(() => {
 })
 
 $('.profilepic').click(() => {
-  console.log('somethign');
   $('.dropdown-content').toggleClass("show")
 })
 
 $('body').click((event) => {
   if($(event.target).attr('class') !== 'dropdownName' && $(event.target).attr('class') !== 'profilepic') {
-    $('.dropdown-content').removeClass("show");
+    $('.dropdown').removeClass("show");
   }
 })
 
 $('.logout').click(() => {
+  var mydate = new Date();
+  mydate.setTime(mydate.getTime() - 1);
+  document.cookie = "username=; expires=" + mydate.toGMTString();
   window.location.replace('https://stark-waters-92757.herokuapp.com/auth/logout')
 })

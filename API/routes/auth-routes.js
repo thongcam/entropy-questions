@@ -1,58 +1,34 @@
 const router = require('express').Router();
-const passport = require('passport');
+const knex = require('../config/knexSQL');
+const keys = require('../config/keys');
+const bcrypt = require('bcrypt');
 
-const knex = require('knex')({
-  client: 'pg',
-  connection: {
-    connectionString: process.env.DATABASE_URL,
-    ssl: true,
-  }
-});;
-
-router.get('/login', (req,res) => {
-  res.render('login');
-})
-
-
-router.get('/code', (req,res) => {
-  res.render('code');
-})
-
-router.get('/logout', (req,res) => {
-  req.logout();
-  res.redirect('/auth/login');
-})
-
-router.post('/code', (req,res) => {
-  if (req.body.code === 'thachthucentropy') {
-    knex('users').insert(req.session.user).then(newUser => {
-      res.contentType('application/json');
-      res.redirect('https://thongcam.github.io/entropy-questions/UI/index.html');
-    }).catch(console.log)
-  } else {
-    res.contentType('application/json');
-    res.redirect('https://thongcam.github.io/entropy-questions/UI/index.html');
-  }
-})
-
-router.get('/google', passport.authenticate('google',{
-  scope: ['profile']
-}))
-
-router.get('/google/callback', passport.authenticate('google'), (req,res) => {
-  // res.send(req.user);
-  if (!req.user) {
-    res.redirect("/login")
-  } else {
-    knex.select('*').from('users').where('id','=',req.user.id).then(data => {
-      if (data[0] !== undefined) {
-        res.redirect('https://thongcam.github.io/entropy-questions/UI/index.html')
+router.post('/login', (req,res) => {
+  if (req.body.username === 'thachthucentropy') {
+    bcrypt.compare(req.body.password, keys.hash, function(err, result) {
+      if (result) {
+        const user = {
+          username: req.body.username,
+          password: req.body.password,
+        }
+        res.cookie('user', user).json('Success');
       } else {
-        req.session.user = req.user;
-        res.redirect('/auth/code')
+        res.json('Failed');
       }
-    })
+  })} else {
+    res.json('Failed');
   }
 });
+
+router.get('/logout', (req,res) => {
+  cookie = req.cookies;
+    for (var prop in cookie) {
+        if (!cookie.hasOwnProperty(prop)) {
+            continue;
+        }
+        res.cookie(prop, '', {expires: new Date(0)});
+    }
+  res.redirect('http://thongcam.github.io/Authentication/index.html');
+})
 
 module.exports = router;

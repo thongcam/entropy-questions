@@ -1,13 +1,13 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const passport = require('passport');
-const cookieSession = require('cookie-session');
+const cookieParser = require('cookie-parser');
 var session = require('express-session');
 const cors = require('cors');
 const pg = require('pg');
 const authRoutes =  require('./routes/auth-routes');
-const passportSetup = require('./config/passport-setup');
 const keys = require('./config/keys');
+const knex = require('./config/knexSQL');
+const bcrypt = require('bcrypt');
 
 const addQuestion = require('./controllers/addQuestion');
 const deleteQuestion = require('./controllers/deleteQuestion');
@@ -27,51 +27,38 @@ var options = {
   }, credentials: true
 }
 
-const knex = require('knex')({
-  client: 'pg',
-  connection: {
-    connectionString: process.env.DATABASE_URL,
-    ssl: true,
-  }
-});
-
 const app = express();
 
 app.use(cors(options));
-app.use(cookieSession({
-  maxAge: 24 * 60 * 60 * 1000,
-  keys: ['thachthucentropy']
-}));
-app.use(session({ secret: keys.cookie.secret, cookie: { maxAge: 60000, secure: true }}));;
+app.use(session({ secret: keys.cookie.secret,resave: false,
+    saveUninitialized: true, cookie: { maxAge: 60000, secure: true }}));
+app.use(cookieParser());
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded())
-app.use(passport.initialize());
-app.use(passport.session());
+app.use(bodyParser.urlencoded());
 app.use('/auth', authRoutes);
 
-app.set('view engine', 'ejs');
-
 const authCheck = (req,res,next) => {
-  if (!req.user || req.user[0] === undefined) {
+  if (!req.cookies.user || req.cookies.user.password === undefined) {
     res.json('Authentication required');
   } else {
-    console.log(req.user);
-    knex.select('*').from('users').where('id','=',req.user[0].id).then(data => {
-      if (data[0] !== undefined) {
-        res.contentType('application/json');
-        next();
-      } else {
-        res.json('Authentication required');
-      }
+
+    if (req.cookies.user.username === 'thachthucentropy') {
+      bcrypt.compare(req.cookies.user.password, keys.hash, function(err, result) {
+        if (result) {
+          next()
+        } else {
+          res.json('Authentication required');
+        }
     })
+    } else {
+      res.json('Authentication required');
+    }
   }
 }
 
 app.get('/', authCheck, (req,res) => {
   knex.select('*').from('cau_hoi').then(data => res.json({
     questions:data,
-    userPhoto: req.user[0].photo,
-    username: req.user[0].name,
   }))
 });
 
