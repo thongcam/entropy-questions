@@ -1,3 +1,5 @@
+$('input').val('');
+
 const checkEmpty = () => {
   let ok = true;
   $('input').each((index,elem) => {
