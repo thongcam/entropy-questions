@@ -97,7 +97,7 @@ Thumbs.db
 *.key
 *.pem
 
-keys0.js
+keys.js
 
 # -------------------------
 # BEGIN Whitelisted Files

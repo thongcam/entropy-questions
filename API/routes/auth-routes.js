@@ -28,7 +28,7 @@ router.get('/logout', (req,res) => {
         }
         res.cookie(prop, '', {expires: new Date(0)});
     }
-  res.redirect('http://thongcam.github.io/Authentication/index.html');
+  res.redirect('http://thongcam.github.io/entropy-questions/Authentication/index.html');
 })
 
 module.exports = router;
