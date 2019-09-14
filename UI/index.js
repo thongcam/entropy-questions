@@ -51,7 +51,7 @@ const reqInfo = () => {
       showSpinner('Redirecting to login');
       window.location.replace('https://thongcam.github.io/entropy-questions/Authentication/index.html')
     }
-  })
+  }).finally(hideSpinner())
   }
 
 const checkEmpty = () => {
