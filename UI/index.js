@@ -1,7 +1,9 @@
 let original = {};
 let currentID = 0;
 
-const reqInfo = () => {fetch("https://stark-waters-92757.herokuapp.com/",{
+const reqInfo = () => {
+  showSpinner('Loading');
+  fetch("https://stark-waters-92757.herokuapp.com/",{
   method: 'get',
   headers: {'Content-Type':  'application/json'},
   credentials: 'include'
@@ -46,6 +48,7 @@ const reqInfo = () => {fetch("https://stark-waters-92757.herokuapp.com/",{
         $(".edit").attr("class","button edit deactivated");
       }
     } else {
+      showSpinner('Redirecting to login');
       window.location.replace('https://thongcam.github.io/entropy-questions/Authentication/index.html')
     }
   })
@@ -59,6 +62,17 @@ const checkEmpty = () => {
     }
   })
   return ok;
+}
+
+const showSpinner = (text) => {
+  $('#spinner').show();
+  $('#spinner-backdrop').show();
+  $('#spinner-text').text(text);
+}
+
+const hideSpinner = () => {
+  $('#spinner').hide();
+  $('#spinner-backdrop').hide();
 }
 
 const rerender = () => {
@@ -129,6 +143,7 @@ $(".create").click(() => {
     alert("Còn bỏ trống");
   }
   if ($(".create").css("filter") === "saturate(0.7)") {
+    showSpinner('Đang tạo câu hỏi');
     fetch("https://stark-waters-92757.herokuapp.com/add-question", {
       method:"post",
       headers: {'Content-Type': 'application/json'},
@@ -144,7 +159,7 @@ $(".create").click(() => {
       $("textarea").val("");
       reqInfo();
       alert(response);
-    })
+    }).finally(hideSpinner())
   }
 })
 
@@ -153,6 +168,7 @@ $(".discard").click(() => {
 })
 
 $(".delete").click(() => {
+  showSpinner('Đang xóa câu hỏi');
   fetch("https://stark-waters-92757.herokuapp.com/delete-question/"+currentID,{
     method: 'delete',
     headers: {'Content-Type':  'application/json'},
@@ -161,10 +177,11 @@ $(".delete").click(() => {
     clearScr();
     rerender();
     alert(response);
-  })
+  }).finally(hideSpinner())
 })
 
 $(".edit").click(() => {
+  showSpinner('Đang chỉnh sửa câu hỏi');
   if (!checkEmpty()) {
     alert("Còn bỏ trống");
   } else if ($(".edit").css("filter") === "saturate(0.7)") {
@@ -182,7 +199,7 @@ $(".edit").click(() => {
       .then(response => {
         rerender();
         alert(response);
-      })
+      }).finally(hideSpinner())
   }
 })
 
@@ -200,5 +217,6 @@ $('.logout').click(() => {
   var mydate = new Date();
   mydate.setTime(mydate.getTime() - 1);
   document.cookie = "username=; expires=" + mydate.toGMTString();
+  showSpinner('Redirecting to login');
   window.location.replace('https://stark-waters-92757.herokuapp.com/auth/logout')
 })

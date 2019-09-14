@@ -10,6 +10,18 @@ const checkEmpty = () => {
   return ok;
 }
 
+const showSpinner = (text) => {
+  $('#spinner').show();
+  $('#spinner-backdrop').show();
+  $('#spinner-text').text(text);
+}
+
+const hideSpinner = () => {
+  $('#spinner').hide();
+  $('#spinner-backdrop').hide();
+}
+
+hideSpinner();
 
 $("input").on("input", () => {
   if(!checkEmpty()){
@@ -23,6 +35,7 @@ $(".login").click(() => {
   if (!checkEmpty()) {
     alert("Còn bỏ trống");
   } else {
+    showSpinner('Logging in...');
     fetch("https://stark-waters-92757.herokuapp.com/auth/login", {
       method:"post",
       headers: {'Content-Type': 'application/json'},
@@ -45,7 +58,7 @@ $(".login").click(() => {
       console.log(err);
       $('input').val('');
       $(".login").attr("class","button login deactivated");
-      alert('TT.');
+      alert('Lỗi đăng nhập')
     })
   }
 })
