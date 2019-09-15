@@ -86,7 +86,7 @@ const clearScr = () => {
   $(".placeholder").show();
 }
 
-reqInfo();
+$(document).ready(reqInfo);
 
 $(".toggler").click(() => {
   $(".menu").animate({"left":"0"},200)
