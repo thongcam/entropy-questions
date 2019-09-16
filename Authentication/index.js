@@ -47,6 +47,7 @@ $(".login").click(() => {
     .then(response => response.json())
     .then(data => {
       if (data === 'Failed') {
+        hideSpinner();
         $('input').val('');
         $(".login").attr("class","button login deactivated");
         alert('Đăng nhập không thành công.');
